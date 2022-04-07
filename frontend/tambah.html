@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <h1>Formulir Tambah Data</h1>
+
+        NIM : <input id="nim"><br>
+        NAMA : <input id="nama"><br>
+        KELAS : <input id="kelas"><br>
+        <button id="simpan">Simpan</button>
+
+<script>
+    $(document).on('click', "#simpan", function(evt) {
+        var data = Object();
+        data.nim = $("#nim").val();
+        data.nama = $("#nama").val();
+        data.kelas = $("#kelas").val();
+        // console.log(data);
+        $.ajax({
+            url: "../backend/tambah.php",
+            type: "POST",
+            data: JSON.stringify(data),
+            success: function(resp) {
+                // console.log(resp);
+                if(JSON.parse(resp).status == "success") {
+                    alert('data telah tersimpan');
+                    window.location.href = "index.html";
+                } else {
+                    alert('data GAGAL tersimpan');
+                }
+            },
+        });
+    })
+    
+</script>        
+    </body>
+</html>

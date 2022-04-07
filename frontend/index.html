@@ -1,10 +1,12 @@
 <html>
     <head>
         <title>Aplikasi Mahasiswa</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body>
         <h1>Aplikasi Mahasiswa</h1>
 
+        <button id="btnTambah">Tambah</button>
         <table border="1">
             <thead>
                 <tr>
@@ -17,23 +19,44 @@
         </table>
 
 <script>
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost/backend/get_all.php", true);
-    xhr.send();
-    xhr.onload = function() {
-        // alert(this.responseText);
-        const data = JSON.parse(this.responseText);
-        // alert(data[0].kelas);
-        result = "";
-        for(i=0; i<data.length; i++) {
-            result += "<tr>" +
-                "<td>" + data[i].nim + "</td>" + 
-                "<td>" + data[i].nama + "</td>" + 
-                "<td>" + data[i].kelas + "</td>" +
-                "</tr>";
-        }
-        document.getElementById("isi").innerHTML = result;
-    }
+    $(document).on('click', '#btnTambah', function(evt) {
+        window.location.href = "tambah.html";
+    });
+
+    $.ajax({
+        url: "../backend/get_all.php",
+        type: "GET",
+        success: function(resp) {
+            var respon = JSON.parse(resp);
+            console.log(respon);
+            result = "";
+            for(i=0; i<respon.length; i++) {
+                result += "<tr>" +
+                  "<td>" + respon[i].nim + "</td>" +
+                  "<td>" + respon[i].nama + "</td>" +
+                  "<td>" + respon[i].kelas + "</td>" +
+                  "</tr>";
+            }
+            $("#isi").html(result);
+        },
+    });
+    // const xhr = new XMLHttpRequest();
+    // xhr.open("GET", "http://localhost/wp2-b-ajax/backend/get_all.php", true);
+    // xhr.send();
+    // xhr.onload = function() {
+    //     // alert(this.responseText);
+    //     const data = JSON.parse(this.responseText);
+    //     // alert(data[0].kelas);
+    //     result = "";
+    //     for(i=0; i<data.length; i++) {
+    //         result += "<tr>" +
+    //             "<td>" + data[i].nim + "</td>" + 
+    //             "<td>" + data[i].nama + "</td>" + 
+    //             "<td>" + data[i].kelas + "</td>" +
+    //             "</tr>";
+    //     }
+    //     document.getElementById("isi").innerHTML = result;
+    // }
 </script>        
     </body>
 </html>
