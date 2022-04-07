@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Aplikasi Mahasiswa</title>
+    </head>
+    <body>
+        <h1>Aplikasi Mahasiswa</h1>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>NIM</th>
+                    <th>NAMA</th>
+                    <th>KELAS</th>
+                </tr>
+            </thead>
+            <tbody id="isi"></tbody>
+        </table>
+
+<script>
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost/backend/get_all.php", true);
+    xhr.send();
+    xhr.onload = function() {
+        // alert(this.responseText);
+        const data = JSON.parse(this.responseText);
+        // alert(data[0].kelas);
+        result = "";
+        for(i=0; i<data.length; i++) {
+            result += "<tr>" +
+                "<td>" + data[i].nim + "</td>" + 
+                "<td>" + data[i].nama + "</td>" + 
+                "<td>" + data[i].kelas + "</td>" +
+                "</tr>";
+        }
+        document.getElementById("isi").innerHTML = result;
+    }
+</script>        
+    </body>
+</html>
