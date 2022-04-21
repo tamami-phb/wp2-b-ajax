@@ -35,28 +35,37 @@
                   "<td>" + respon[i].nim + "</td>" +
                   "<td>" + respon[i].nama + "</td>" +
                   "<td>" + respon[i].kelas + "</td>" +
+                  '<td><button id="hapus" nim="' + respon[i].nim + 
+                      '">Hapus</button></td>' +
+                  '<td><button id="ubah" nim="' +
+                        respon[i].nim + '">Ubah</button></td>' + 
                   "</tr>";
             }
             $("#isi").html(result);
         },
     });
-    // const xhr = new XMLHttpRequest();
-    // xhr.open("GET", "http://localhost/wp2-b-ajax/backend/get_all.php", true);
-    // xhr.send();
-    // xhr.onload = function() {
-    //     // alert(this.responseText);
-    //     const data = JSON.parse(this.responseText);
-    //     // alert(data[0].kelas);
-    //     result = "";
-    //     for(i=0; i<data.length; i++) {
-    //         result += "<tr>" +
-    //             "<td>" + data[i].nim + "</td>" + 
-    //             "<td>" + data[i].nama + "</td>" + 
-    //             "<td>" + data[i].kelas + "</td>" +
-    //             "</tr>";
-    //     }
-    //     document.getElementById("isi").innerHTML = result;
-    // }
+
+    $(document).on('click', '#ubah', function() {
+        var nim = $(this).attr("nim");
+        window.location.href="ubah.html?nim=" + nim;
+    });
+
+    $(document).on('click', '#hapus', function() {
+        console.log("hapus nim: " + $(this).attr("nim"));
+        var req = new Object();
+        req.nim = $(this).attr("nim");
+        $.post('../backend/hapus.php', JSON.stringify(req),
+            function(resp) {
+                var result = JSON.parse(resp);
+                if(result.status == "ok") {
+                    alert("Hapus data berhasil");
+                    window.location.href='index.html';
+                } else {
+                    alert("Hapus data gagal");
+                }
+            });
+    });
+    
 </script>        
     </body>
 </html>

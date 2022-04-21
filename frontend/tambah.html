@@ -16,21 +16,7 @@
         data.nim = $("#nim").val();
         data.nama = $("#nama").val();
         data.kelas = $("#kelas").val();
-        // console.log(data);
-        // $.ajax({
-        //     url: "../backend/tambah.php",
-        //     type: "POST",
-        //     data: JSON.stringify(data),
-        //     success: function(resp) {
-        //         // console.log(resp);
-        //         if(JSON.parse(resp).status == "success") {
-        //             alert('data telah tersimpan');
-        //             window.location.href = "index.html";
-        //         } else {
-        //             alert('data GAGAL tersimpan');
-        //         }
-        //     },
-        // });
+        
         $.post(
             "../backend/tambah.php",
             JSON.stringify(data), 

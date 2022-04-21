@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <h3>Form Ubah Data</h3>
+
+        NIM : <input id="nim" readonly><br>
+        NAMA : <input id="nama"><br>
+        KELAS : <input id="kelas"><br>
+        <button id="simpan">Simpan</button>
+
+<script>
+    $(document).ready(function() {
+        var param = window.location.search;
+        var urlParam = new URLSearchParams(param);
+        console.log(urlParam.get("nim"));
+        $("#nim").val(urlParam.get("nim"));
+
+        var req = new Object();
+        req.nim = urlParam.get("nim");
+        console.log(req);
+        $.post("../backend/get-mhs-by-nim.php", JSON.stringify(req), 
+            function(resp) {
+                console.log(resp);
+                result = JSON.parse(resp);
+                $("#nama").val(result.nama);
+                $("#kelas").val(result.kelas);
+            }
+        );
+    });
+
+    $(document).on('click', '#simpan', function() {
+        var mhs = new Object();
+        mhs.nim = $("#nim").val();
+        mhs.nama = $("#nama").val();
+        mhs.kelas = $("#kelas").val();
+
+        $.post("../backend/ubah.php", JSON.stringify(mhs), 
+          function(resp) {
+              var result = JSON.parse(resp);
+              if(result.status == "ok") {
+                  alert("Data berhasil diubah");
+                  window.location.href="index.html";
+              } else {
+                  alert("Data gagal diubah");
+              }
+          }
+        );
+    });
+</script>
+    </body>
+</html>
